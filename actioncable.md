@@ -72,7 +72,7 @@ end
 
 **Why it matters**: Connection tests verify the critical security boundary. Use `ActionCable::Connection::TestCase` to test authentication without a full integration test.
 
-**From**: PR #1810
+**From**: PR [#1810](https://github.com/basecamp/fizzy/pull/1810)
 
 ### Forcibly Disconnect Users
 
@@ -107,7 +107,7 @@ test "deactivate" do
 end
 ```
 
-**From**: PR #1810
+**From**: PR [#1810](https://github.com/basecamp/fizzy/pull/1810)
 
 ## Broadcast Strategies
 
@@ -206,7 +206,7 @@ end
 
 **Why it matters**: Individual model updates trigger `after_commit` callbacks that broadcast changes. When you need the UI to update via ActionCable, iterate instead of batch updating. The empty `turbo_stream` response prevents double-updates.
 
-**From**: PR #705
+**From**: PR [#705](https://github.com/basecamp/fizzy/pull/705)
 
 ### Broadcast Removal Pattern
 
@@ -232,7 +232,7 @@ private
 
 **Why it matters**: Both reading and destroying notifications should remove them from the UI. Consolidate the broadcast logic so both actions use the same removal mechanism.
 
-**From**: PR #705
+**From**: PR [#705](https://github.com/basecamp/fizzy/pull/705)
 
 ## Multi-Tenant ActionCable Configuration
 
@@ -263,7 +263,7 @@ content: "#{request.script_name}#{ActionCable.server.config.mount_path}"
 
 **Why it matters**: In path-based multi-tenancy, the WebSocket URL must include the account path prefix so middleware can extract the tenant context.
 
-**From**: PR #699
+**From**: PR [#699](https://github.com/basecamp/fizzy/pull/699)
 
 ### Solid Cable for Database-Backed WebSockets
 
@@ -311,7 +311,7 @@ if type == :text || type == :binary
 end
 ```
 
-**From**: PR #1765
+**From**: PR [#1765](https://github.com/basecamp/fizzy/pull/1765)
 
 ## Monitoring and Metrics
 
@@ -342,7 +342,7 @@ production:
 
 **Why it matters**: Monitor WebSocket connection counts, message rates, and subscription patterns. Critical for diagnosing broadcast performance issues and connection problems.
 
-**From**: PR #1291
+**From**: PR [#1291](https://github.com/basecamp/fizzy/pull/1291)
 
 ## Testing Patterns
 
@@ -392,7 +392,7 @@ test:
 
 **Why it matters**: The test adapter is synchronous and designed for assertions. Don't use your production adapter in tests.
 
-**From**: PR #1765
+**From**: PR [#1765](https://github.com/basecamp/fizzy/pull/1765)
 
 ## Performance Considerations
 
@@ -408,7 +408,7 @@ end
 
 **Why it matters**: Broadcasts can be slow. Using `_later` variants queues the broadcast as a background job, keeping requests fast.
 
-**From**: PR #705
+**From**: PR [#705](https://github.com/basecamp/fizzy/pull/705)
 
 ### Selective Subscriptions
 
@@ -427,7 +427,7 @@ end
 
 **Why it matters**: Reduces unnecessary WebSocket traffic. Users only receive updates for data they can see.
 
-**From**: PR #1432
+**From**: PR [#1432](https://github.com/basecamp/fizzy/pull/1432)
 
 ## Summary
 

@@ -20,7 +20,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Mobile screens are precious. You can reclaim horizontal padding when content needs full width.
 
-**From:** PR #480
+**From:** PR [#480](https://github.com/basecamp/fizzy/pull/480)
 
 ```css
 @media (max-width: 800px) {
@@ -44,7 +44,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Horizontal scrolling feels natural for carousels but awkward for columnar data. Stacking is often clearer.
 
-**From:** PR #604
+**From:** PR [#604](https://github.com/basecamp/fizzy/pull/604)
 
 ```css
 .card-columns {
@@ -70,7 +70,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Users need context while scrolling, especially on small screens.
 
-**From:** PR #604
+**From:** PR [#604](https://github.com/basecamp/fizzy/pull/604)
 
 ```css
 .cards__heading {
@@ -96,7 +96,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Text and previews consume space. Icons with badges communicate state efficiently.
 
-**From:** PR #597
+**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
 
 ```css
 /* Desktop: show cards */
@@ -137,7 +137,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** A fixed "show 10 items" works on desktop but overflows on small phones.
 
-**From:** PR #1208
+**From:** PR [#1208](https://github.com/basecamp/fizzy/pull/1208)
 
 ```css
 .tray__item {
@@ -175,7 +175,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Avoids awkward text sizes on small screens while maintaining hierarchy on large screens.
 
-**From:** PR #740
+**From:** PR [#740](https://github.com/basecamp/fizzy/pull/740)
 
 ```css
 .card__title {
@@ -260,7 +260,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Trix, Lexical, etc. save `<p><br /></p>` for empty content, creating unwanted whitespace.
 
-**From:** PR #740
+**From:** PR [#740](https://github.com/basecamp/fizzy/pull/740)
 
 ```css
 .card__description {
@@ -283,7 +283,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Saves horizontal space while maintaining touch target size.
 
-**From:** PR #778
+**From:** PR [#778](https://github.com/basecamp/fizzy/pull/778)
 
 ```css
 .header {
@@ -313,7 +313,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Small tap targets frustrate users. Mobile UIs should be forgiving.
 
-**From:** PR #597
+**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
 
 ```css
 @media (max-width: 799px) {
@@ -336,7 +336,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Prevents confusion and provides visual feedback about state.
 
-**From:** PR #597
+**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
 
 ```css
 /* On mobile, disable the expander if there aren't items to show */
@@ -361,7 +361,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Not every feature needs to work everywhere. Ship the best experience for each context.
 
-**From:** PR #597
+**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
 
 ```css
 /* Desktop: don't expand if there's only one pin */
@@ -386,7 +386,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Some features can't be gracefully adapted; hiding them is acceptable.
 
-**From:** PR #597
+**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
 
 ```css
 /* On mobile, hide the dialog if there aren't items to show */
@@ -432,7 +432,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Essential for iOS devices with notches and Android gesture navigation.
 
-**From:** PR #739
+**From:** PR [#739](https://github.com/basecamp/fizzy/pull/739)
 
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
@@ -465,7 +465,7 @@ This guide documents transferable lessons and patterns for building responsive, 
 
 **Why it matters:** Prevents jarring white flashes in dark mode; improves native-feeling integration.
 
-**From:** PR #597
+**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
 
 ```css
 :root {

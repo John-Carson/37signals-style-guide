@@ -11,7 +11,7 @@ This document extracts transferable notification system patterns from Fizzy's im
 **Why it matters**: Timestamps provide both state AND temporal information, enabling time-based queries and analytics without additional columns.
 
 ```ruby
-# From PR #208
+# From PR [#208](https://github.com/basecamp/fizzy/pull/208)
 class Notification < ApplicationRecord
   scope :unread, -> { where(read_at: nil) }
   scope :read, -> { where.not(read_at: nil) }
@@ -46,7 +46,7 @@ end
 **Why it matters**: Lightweight, immutable design that avoids complex many-to-many relationships.
 
 ```ruby
-# From PR #974
+# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
 class Notification::Bundle < ApplicationRecord
   belongs_to :user
 
@@ -77,7 +77,7 @@ end
 
 **Validation to prevent overlapping bundles**:
 ```ruby
-# From PR #974
+# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
 validate :validate_no_overlapping
 
 def validate_no_overlapping
@@ -102,7 +102,7 @@ end
 **Why it matters**: Keeps User model focused, makes settings easier to test, and enables settings-specific logic.
 
 ```ruby
-# From PR #974
+# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
 module User::Configurable
   extend ActiveSupport::Concern
 
@@ -142,7 +142,7 @@ end
 
 **Reactive settings changes**:
 ```ruby
-# From PR #974
+# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
 after_update :review_pending_bundles, if: :saved_change_to_bundle_email_frequency?
 
 def review_pending_bundles
@@ -163,7 +163,7 @@ end
 **Why it matters**: Zero-touch bundling - developers creating notifications don't need to remember to bundle.
 
 ```ruby
-# From PR #974
+# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
 class Notification < ApplicationRecord
   after_create :bundle
 
@@ -206,7 +206,7 @@ end
 **Why it matters**: Parallelizes delivery while managing memory and avoiding timeouts.
 
 ```ruby
-# From PR #974
+# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
 class Notification::Bundle::DeliverAllJob < ApplicationJob
   queue_as :backend
 
@@ -258,13 +258,13 @@ deliver_bundled_notifications:
 **Why it matters**: Notifications stay in sync across browser tabs without polling.
 
 ```ruby
-# From PR #475
+# From PR [#475](https://github.com/basecamp/fizzy/pull/475)
 class Notification < ApplicationRecord
   after_create_commit :broadcast_unread
 
   def read
     update!(read_at: Time.current)
-    broadcast_read  # Added in PR #475
+    broadcast_read  # Added in PR [#475](https://github.com/basecamp/fizzy/pull/475)
   end
 
   private
@@ -298,7 +298,7 @@ end
 **Why it matters**: Progressive loading without "Load More" buttons or complex state management.
 
 ```javascript
-// From PR #208
+// From PR [#208](https://github.com/basecamp/fizzy/pull/208)
 import { Controller } from "@hotwired/stimulus"
 import { get } from "@rails/request.js"
 
@@ -356,7 +356,7 @@ end
 **Why it matters**: Reduces clutter in notification tray, works dynamically with new notifications.
 
 ```javascript
-// From PR #1448
+// From PR [#1448](https://github.com/basecamp/fizzy/pull/1448)
 export default class extends Controller {
   static targets = [ "notification", "hiddenNotifications" ]
   static classes = [ "grouped" ]
@@ -465,7 +465,7 @@ end
 **Why it matters**: Stateless tokens that expire automatically, no database lookups needed for validation.
 
 ```ruby
-# From PR #974
+# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
 module User::Notifiable
   included do
     generates_token_for :unsubscribe, expires_in: 1.month
@@ -497,7 +497,7 @@ end
 
 **Unsubscribe controller**:
 ```ruby
-# From PR #974
+# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
 class Notifications::UnsubscribesController < ApplicationController
   allow_unauthenticated_access
   skip_before_action :verify_authenticity_token
@@ -581,7 +581,7 @@ end
 **Pattern**: Test time windows, bundling behavior, and state transitions.
 
 ```ruby
-# From PR #974
+# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
 class Notification::BundleTest < ActiveSupport::TestCase
   setup do
     @user = users(:david)
