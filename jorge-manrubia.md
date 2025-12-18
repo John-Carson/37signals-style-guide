@@ -1,6 +1,6 @@
 # Jorge Manrubia Code Review Patterns
 
-> Extracted from PRs [#339](https://github.com/basecamp/fizzy/pull/339), [#483](https://github.com/basecamp/fizzy/pull/483), [#929](https://github.com/basecamp/fizzy/pull/929), #1052
+> Extracted from PRs [#339](https://github.com/basecamp/fizzy/pull/339), [#483](https://github.com/basecamp/fizzy/pull/483), [#929](https://github.com/basecamp/fizzy/pull/929), [#1052](https://github.com/basecamp/fizzy/pull/1052)
 > Focus: Architecture, Rails patterns, testing, and performance
 
 ---
@@ -624,12 +624,3 @@ async #failPendingMessage(clientMessageId, response) {
 8. **VCR for APIs** - Fast, deterministic tests
 9. **Custom types: only when spread** - If used in one place, value object is enough
 10. **Teach through questions** - "What do you think of..." not "Change this to..."
-
----
-
-## References
-
-- **PR [#929](https://github.com/basecamp/fizzy/pull/929)**: Conversation cost limits (quota system design)
-- **PR [#1052](https://github.com/basecamp/fizzy/pull/1052)**: Add more caching (performance optimization)
-- **PR [#483](https://github.com/basecamp/fizzy/pull/483)**: Fizz Do with AI (LLM integration, VCR testing)
-- **PR [#339](https://github.com/basecamp/fizzy/pull/339)**: Enable page refreshes with morphing
