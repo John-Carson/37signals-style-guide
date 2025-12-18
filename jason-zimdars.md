@@ -1,6 +1,11 @@
-# Jason Fried's Product-Oriented Development Patterns
+# Jason Zimdars' Design & Product Patterns
 
-> Transferable insights from PRs [#305](https://github.com/basecamp/fizzy/pull/305), [#131](https://github.com/basecamp/fizzy/pull/131), [#335](https://github.com/basecamp/fizzy/pull/335), [#265](https://github.com/basecamp/fizzy/pull/265), #608
+> Extracted from PRs by [@jzimdars](https://github.com/jzimdars) (Lead Designer at 37signals) in [basecamp/fizzy](https://github.com/basecamp/fizzy)
+> Focus: UX-first development, prototype shipping, visual coherence, CSS patterns
+
+---
+
+**Referenced PRs**: [#305](https://github.com/basecamp/fizzy/pull/305), [#131](https://github.com/basecamp/fizzy/pull/131), [#335](https://github.com/basecamp/fizzy/pull/335), [#265](https://github.com/basecamp/fizzy/pull/265), [#608](https://github.com/basecamp/fizzy/pull/608)
 
 ---
 

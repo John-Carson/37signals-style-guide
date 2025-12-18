@@ -92,90 +92,42 @@ Design caching early - it reveals architectural issues:
 
 ## Write-Time vs Read-Time Operations ([#108](https://github.com/basecamp/fizzy/pull/108))
 
-DHH's principle: "All manipulation has to happen when you save, not when you present."
+All manipulation should happen when you save, not when you present:
 - Use delegated types for heterogeneous collections needing pagination
 - Pre-compute roll-ups at write time
 - Use `dependent: :delete_all` when no callbacks needed
 - Use counter caches instead of manual counting
 
+See [dhh.md](dhh.md#write-time-vs-read-time-operations) for detailed examples.
+
 ---
 
-## Jason Fried: Product-Oriented Development
+## Jason Zimdars: Design & Product Patterns
 
-> From PRs [#305](https://github.com/basecamp/fizzy/pull/305), [#131](https://github.com/basecamp/fizzy/pull/131), [#335](https://github.com/basecamp/fizzy/pull/335), [#265](https://github.com/basecamp/fizzy/pull/265), #608
+See [jason-zimdars.md](jason-zimdars.md) for comprehensive patterns from [@jzimdars](https://github.com/jzimdars) (Lead Designer at 37signals).
 
-### Perceived Performance Over Technical Performance ([#131](https://github.com/basecamp/fizzy/pull/131))
+Key themes:
+- **Perceived Performance > Technical Performance** - If it *feels* slow, it's slow
+- **Prototype Quality Shipping** - "Ship to validate" is a valid standard
+- **Production Truth** - Real data reveals what local testing can't
+- **Extend Don't Replace** - Branch with parameters, keep old paths working
+- **Visual Coherence** - Ship visual redesigns wholesale, not piecemeal
+- **Feedback as Vision** - Share UX concerns, let implementers figure out how
 
-User perception matters more than server metrics. If it feels slow, it is slow.
+---
 
-> "I'd imagined this as a single form where you'd make all your selections and then 'apply' the filter rather than it updating after every choice. Some shopping websites do that latter and it always feels/is slow."
+## Jorge Manrubia: Architecture & Rails Patterns
 
-**Pattern**: Question live-updating UIs. Sometimes a single "Apply" action feels faster than multiple instant updates.
+See [jorge-manrubia.md](jorge-manrubia.md) for comprehensive patterns from [@jorgemanrubia](https://github.com/jorgemanrubia) (Programmer at 37signals).
 
-### Prototype Quality is a Valid Shipping Standard ([#335](https://github.com/basecamp/fizzy/pull/335))
-
-Explicitly communicate when code is "prototype quality" - built to validate with real usage:
-
-> "This is an unproven feature built with prototype quality code so I would suggest factoring your appetite accordingly. The goal is to get this onto our production instance as soon as possible so we can vet the design with real work."
-
-Ship with enumerated known issues:
-1. Performance concerns ("un-holy things with Bubble collections")
-2. Missing features ("no pagination in the new view")
-3. Technical debt ("the whole `Bubble` namespace doesn't really make sense")
-
-**Pattern**: Different features deserve different polish. Ship to learn when uncertain.
-
-### Production Truth Over Local Speculation ([#335](https://github.com/basecamp/fizzy/pull/335))
-
-> "It runs slowly on beta which may be simply because the droplet doesn't have sufficient specs. It's quite fast on local dev so this might not be an issue at all on production. It could be that you just merge it as is and there's no problem."
-
-**Pattern**: Real data in production reveals what local testing can't. Ship with monitoring ready.
-
-### Simplify by Removing, Not Just Hiding ([#131](https://github.com/basecamp/fizzy/pull/131))
-
-> "One thing we could try is to not show the chips while the form is open. Then there wouldn't be anything to update live on the page."
-
-**Pattern**: Reduce visible UI states to reduce complexity and edge cases.
-
-### Extend Don't Replace ([#608](https://github.com/basecamp/fizzy/pull/608))
-
-When adding "Create and add another" button, keep original "Create" flow intact:
-
-```ruby
-def create
-  @card.publish
-  redirect_to add_another_param? ? @collection.cards.create! : @card
-end
-
-private
-  def add_another_param?
-    params[:creation_type] == "add_another"
-  end
-```
-
-**Pattern**: Branch with parameters, don't replace routes or create separate endpoints.
-
-### Leverage Robust Systems Creatively ([#335](https://github.com/basecamp/fizzy/pull/335))
-
-> "The whole thing runs through the `Filter` system. It's quite robust and resilient so I got a lot of mileage out of breaking it out into individual forms to get the various sorting and filtering in place."
-
-**Pattern**: Reuse proven systems for new features, even if "there are certainly better ways" - ship with what works.
-
-### Name Technical Debt Without Blocking ([#335](https://github.com/basecamp/fizzy/pull/335))
-
-> "There is also some mess here that we haven't cleaned up since we moved to the cards design. The whole `Bubble` namespace doesn't really make sense anymore but we haven't done anything about it. I'm only pointing that out because it's probably confusing!"
-
-**Pattern**: Acknowledge confusing code, provide context ("exists in main, too"), don't block features on cleanup.
-
-### Feedback as Product Vision, Not Mandate ([#131](https://github.com/basecamp/fizzy/pull/131))
-
-Share vision, not commands:
-- ✅ "I'd imagined this as..."
-- ✅ "One thing we could try..."
-- ❌ "Change this to use X"
-- ❌ "You must do Y"
-
-**Pattern**: Give product context and UX concerns, let implementer figure out how.
+Key themes:
+- **Narrow Public APIs** - Only expose what's actually used
+- **Domain Names Over Technical** - `depleted?` not `over_limit?`
+- **Objects Emerge from Coupling** - Shared params → extract object
+- **Memoize Hot Paths** - Methods called during rendering
+- **Layer Caching** - HTTP, templates, queries at different granularities
+- **Fixed-Point for Money** - Integers, not floats (microcents)
+- **VCR for External APIs** - Fast, deterministic tests
 
 ---
 
