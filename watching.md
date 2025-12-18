@@ -2,6 +2,10 @@
 
 > Subscription patterns and toggle UI.
 
+This guide covers patterns for managing user involvement with collections and resources—specifically, how users control which notifications they receive. Rather than a separate polymorphic subscriptions system, 37signals embeds notification preferences directly into access records, using an "involvement" enum that determines notification levels.
+
+The core concept: when a user has access to a collection (like a board or project), their `Access` record also tracks their notification preference—whether they want no notifications (`access_only`), or to be notified about activity they're watching (`watching`). This eliminates the need for a separate `Subscription` model and keeps the mental model simple.
+
 ---
 
 ## Embedding Subscription State in Access Records
