@@ -6,7 +6,7 @@
 
 ## Philosophy
 
-Fizzy uses **native CSS only** - no Sass, PostCSS, or Tailwind. Modern CSS has everything needed:
+the application uses **native CSS only** - no Sass, PostCSS, or Tailwind. Modern CSS has everything needed:
 - Native nesting
 - CSS variables
 - Cascade layers
@@ -271,7 +271,7 @@ Components expose customization via variables:
 
 ## Utility Classes (Minimal)
 
-Unlike Tailwind's hundreds of utilities, Fizzy has ~60 focused utilities:
+Unlike Tailwind's hundreds of utilities, the application has ~60 focused utilities:
 
 ```css
 @layer utilities {

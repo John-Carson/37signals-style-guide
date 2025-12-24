@@ -12,7 +12,7 @@
 
 **Why it matters:** Mobile screens are precious. You can reclaim horizontal padding when content needs full width.
 
-**From:** PR [#480](https://github.com/basecamp/fizzy/pull/480)
+**From:** PR this update
 
 ```css
 @media (max-width: 800px) {
@@ -36,7 +36,7 @@
 
 **Why it matters:** Horizontal scrolling feels natural for carousels but awkward for columnar data. Stacking is often clearer.
 
-**From:** PR [#604](https://github.com/basecamp/fizzy/pull/604)
+**From:** PR this update
 
 ```css
 .card-columns {
@@ -62,7 +62,7 @@
 
 **Why it matters:** Users need context while scrolling, especially on small screens.
 
-**From:** PR [#604](https://github.com/basecamp/fizzy/pull/604)
+**From:** PR this update
 
 ```css
 .cards__heading {
@@ -88,7 +88,7 @@
 
 **Why it matters:** Text and previews consume space. Icons with badges communicate state efficiently.
 
-**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
+**From:** PR this update
 
 ```css
 /* Desktop: show cards */
@@ -129,7 +129,7 @@
 
 **Why it matters:** A fixed "show 10 items" works on desktop but overflows on small phones.
 
-**From:** PR [#1208](https://github.com/basecamp/fizzy/pull/1208)
+**From:** PR this update
 
 ```css
 .tray__item {
@@ -167,7 +167,7 @@
 
 **Why it matters:** Avoids awkward text sizes on small screens while maintaining hierarchy on large screens.
 
-**From:** PR [#740](https://github.com/basecamp/fizzy/pull/740)
+**From:** PR this update
 
 ```css
 .card__title {
@@ -190,7 +190,7 @@
 
 **Why it matters:** Centralize responsive behavior; reduce duplication.
 
-**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597), #604
+**From:** PR this update, #604
 
 ```css
 :root {
@@ -222,7 +222,7 @@
 
 **Why it matters:** Columns separated by whitespace don't need borders; stacked sections do.
 
-**From:** PR [#604](https://github.com/basecamp/fizzy/pull/604), #881
+**From:** PR this update, #881
 
 ```css
 .cards--doing:before {
@@ -252,7 +252,7 @@
 
 **Why it matters:** Trix, Lexical, etc. save `<p><br /></p>` for empty content, creating unwanted whitespace.
 
-**From:** PR [#740](https://github.com/basecamp/fizzy/pull/740)
+**From:** PR this update
 
 ```css
 .card__description {
@@ -275,7 +275,7 @@
 
 **Why it matters:** Saves horizontal space while maintaining touch target size.
 
-**From:** PR [#778](https://github.com/basecamp/fizzy/pull/778)
+**From:** PR this update
 
 ```css
 .header {
@@ -305,7 +305,7 @@
 
 **Why it matters:** Small tap targets frustrate users. Mobile UIs should be forgiving.
 
-**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
+**From:** PR this update
 
 ```css
 @media (max-width: 799px) {
@@ -328,7 +328,7 @@
 
 **Why it matters:** Prevents confusion and provides visual feedback about state.
 
-**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
+**From:** PR this update
 
 ```css
 /* On mobile, disable the expander if there aren't items to show */
@@ -353,7 +353,7 @@
 
 **Why it matters:** Not every feature needs to work everywhere. Ship the best experience for each context.
 
-**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
+**From:** PR this update
 
 ```css
 /* Desktop: don't expand if there's only one pin */
@@ -378,7 +378,7 @@
 
 **Why it matters:** Some features can't be gracefully adapted; hiding them is acceptable.
 
-**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
+**From:** PR this update
 
 ```css
 /* On mobile, hide the dialog if there aren't items to show */
@@ -397,7 +397,7 @@
 
 **Why it matters:** Horizontal layouts often fail on narrow screens.
 
-**From:** PR [#740](https://github.com/basecamp/fizzy/pull/740), #881
+**From:** PR this update, #881
 
 ```css
 .card__body {
@@ -424,7 +424,7 @@
 
 **Why it matters:** Essential for iOS devices with notches and Android gesture navigation.
 
-**From:** PR [#739](https://github.com/basecamp/fizzy/pull/739)
+**From:** PR this update
 
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
@@ -457,7 +457,7 @@
 
 **Why it matters:** Prevents jarring white flashes in dark mode; improves native-feeling integration.
 
-**From:** PR [#597](https://github.com/basecamp/fizzy/pull/597)
+**From:** PR this update
 
 ```css
 :root {
@@ -502,9 +502,9 @@ Use this checklist when building or auditing mobile experiences:
 
 ## Additional Resources
 
-- **Container Queries:** Fizzy uses `cqi` (container inline size) units. Consider `@container` queries for truly component-scoped responsive design.
+- **Container Queries:** the application uses `cqi` (container inline size) units. Consider `@container` queries for truly component-scoped responsive design.
 - **Logical Properties:** Note the use of `inline-size`, `block-size`, `inset-inline`, etc. These are future-proof for RTL languages.
-- **Modern Viewport Units:** Fizzy uses `dvw` and `dvh` (dynamic viewport units) that account for browser chrome on mobile.
+- **Modern Viewport Units:** the application uses `dvw` and `dvh` (dynamic viewport units) that account for browser chrome on mobile.
 
 ---
 

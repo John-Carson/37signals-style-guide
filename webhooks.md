@@ -6,7 +6,7 @@
 
 ## SSRF Protection
 
-**PR:** [#1196](https://github.com/basecamp/fizzy/pull/1196)
+**PR:** this update
 
 ### The Pattern
 
@@ -118,7 +118,7 @@ end
 
 ## Delivery Pattern: Asynchronous with State Machine
 
-**PR:** [#1196](https://github.com/basecamp/fizzy/pull/1196)
+**PR:** this update
 
 ### The Pattern
 
@@ -201,7 +201,7 @@ end
 
 ## Retry Strategy: Delinquency Tracking
 
-**PR:** [#1196](https://github.com/basecamp/fizzy/pull/1196)
+**PR:** this update
 
 ### The Pattern
 
@@ -272,7 +272,7 @@ end
 
 ## Signature Verification: HMAC-SHA256
 
-**PR:** [#1196](https://github.com/basecamp/fizzy/pull/1196)
+**PR:** this update
 
 ### The Pattern
 
@@ -325,7 +325,7 @@ end
 
 ## Background Job Integration
 
-**PR:** [#1196](https://github.com/basecamp/fizzy/pull/1196)
+**PR:** this update
 
 ### The Pattern
 
@@ -393,7 +393,7 @@ end
 
 ## Testing Webhooks
 
-**PR:** [#1196](https://github.com/basecamp/fizzy/pull/1196)
+**PR:** this update
 
 ### The Pattern
 
@@ -490,7 +490,7 @@ end
 
 ## Payload Formatting: Multi-Format Support
 
-**PR:** [#1196](https://github.com/basecamp/fizzy/pull/1196)
+**PR:** this update
 
 ### The Pattern
 
@@ -498,7 +498,7 @@ Support multiple webhook formats based on destination URL pattern:
 - **Generic**: JSON with full event object
 - **Slack**: Convert HTML to Slack's mrkdwn format
 - **Campfire**: Plain HTML
-- **Basecamp**: URL-encoded HTML
+- **the organization**: URL-encoded HTML
 
 ### Why It Matters
 
@@ -576,7 +576,7 @@ end
 
 ## Data Retention: Automatic Cleanup
 
-**PR:** [#1292](https://github.com/basecamp/fizzy/pull/1292)
+**PR:** this update
 
 ### The Pattern
 
@@ -628,7 +628,7 @@ test "cleanup" do
 end
 ```
 
-**Important**: Fix from PR [#1292](https://github.com/basecamp/fizzy/pull/1292) - use `command:` not `class:` for class method calls:
+**Important**: Fix from PR this update - use `command:` not `class:` for class method calls:
 
 ```yaml
 # RIGHT - calling a class method
@@ -704,7 +704,7 @@ end
 
 ### User-Friendly Action Labels
 
-Map internal event names to user-friendly labels (PR [#1161](https://github.com/basecamp/fizzy/pull/1161)):
+Map internal event names to user-friendly labels (PR this update):
 
 ```ruby
 # app/helpers/webhooks_helper.rb
@@ -730,7 +730,7 @@ end
 
 ### Event Granularity
 
-Separate similar events for better webhook filtering (PR [#1169](https://github.com/basecamp/fizzy/pull/1169), [#1229](https://github.com/basecamp/fizzy/pull/1229)):
+Separate similar events for better webhook filtering (PR this update, this update):
 
 ```ruby
 # Bad - single "card_closed" event for both user and system actions
@@ -756,7 +756,7 @@ card.auto_postpone(user: User.system, event: :auto_postponed)  # System postpone
 
 ## Summary
 
-The key transferable patterns from Fizzy's webhook implementation:
+The key transferable patterns from the application's webhook implementation:
 
 1. **Security first**: SSRF protection with DNS pinning is essential for user-controlled URLs
 2. **State tracking**: Store delivery metadata for debugging and auditability

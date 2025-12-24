@@ -8,7 +8,7 @@
 
 **Pattern**: Extract filtering logic from controllers into dedicated Plain Old Ruby Objects (POROs).
 
-### Evolution Journey (PRs [#115](https://github.com/basecamp/fizzy/pull/115), [#116](https://github.com/basecamp/fizzy/pull/116))
+### Evolution Journey (PRs this update, this update)
 
 **Before**: Logic lived in controller as instance variables and before_action callbacks
 ```ruby
@@ -92,7 +92,7 @@ end
 - **Clarity**: Reader immediately understands what data is being filtered
 - **Separation of concerns**: Controller handles HTTP, filter handles business logic
 
-**Key insight from PR [#115](https://github.com/basecamp/fizzy/pull/115)**: Don't be afraid to iterate. The initial implementation lived on the model, then moved to a concern, then extracted to a PORO when it became clear the logic didn't belong on the domain model.
+**Key insight from PR this update**: Don't be afraid to iterate. The initial implementation lived on the model, then moved to a concern, then extracted to a PORO when it became clear the logic didn't belong on the domain model.
 
 ---
 
@@ -229,11 +229,11 @@ end
 - **Back button works**: Browser history navigation works naturally
 - **Deep linking**: Direct links to filtered views work correctly
 
-**Key insight from PR [#138](https://github.com/basecamp/fizzy/pull/138)**: The `as_params_without` method is crucial for creating "remove filter" links that preserve other active filters.
+**Key insight from PR this update**: The `as_params_without` method is crucial for creating "remove filter" links that preserve other active filters.
 
 ---
 
-## 4. Filter Chips as Links (PR [#138](https://github.com/basecamp/fizzy/pull/138))
+## 4. Filter Chips as Links (PR this update)
 
 **Pattern**: Render active filters as removable chips using links, not forms.
 
@@ -293,18 +293,18 @@ end
 **Testing pattern**:
 ```ruby
 test "params without a key-value pair" do
-  filter = users(:david).filters.new(
+  filter = users(:owner).filters.new(
     indexed_by: "most_discussed",
-    assignee_ids: [ users(:jz).id, users(:kevin).id ]
+    assignee_ids: [ users(:jz).id, users(:member).id ]
   )
 
   # Removing one assignee keeps the other
-  expected = { indexed_by: "most_discussed", assignee_ids: [ users(:kevin).id ] }
+  expected = { indexed_by: "most_discussed", assignee_ids: [ users(:member).id ] }
   assert_equal expected.stringify_keys,
                filter.as_params_without(:assignee_ids, users(:jz).id).to_h
 
   # Removing the only value of a key removes the key entirely
-  expected = { assignee_ids: [ users(:jz).id, users(:kevin).id ] }
+  expected = { assignee_ids: [ users(:jz).id, users(:member).id ] }
   assert_equal expected.stringify_keys,
                filter.as_params_without(:indexed_by, "most_discussed").to_h
 end
@@ -312,7 +312,7 @@ end
 
 ---
 
-## 5. Stimulus Controllers for Filters (PR [#567](https://github.com/basecamp/fizzy/pull/567))
+## 5. Stimulus Controllers for Filters (PR this update)
 
 **Pattern**: Use two complementary Stimulus controllers for rich filtering UX.
 
@@ -463,7 +463,7 @@ export default class extends Controller {
 - **UX**: Keyboard navigation feels like native OS behavior
 - **Responsive**: Debounced filtering prevents lag on large lists
 
-**Key insight from PR [#567](https://github.com/basecamp/fizzy/pull/567)**: The `filter:changed` event dispatched by the filter controller triggers `navigable-list#reset`, ensuring keyboard selection stays on visible items after filtering.
+**Key insight from PR this update**: The `filter:changed` event dispatched by the filter controller triggers `navigable-list#reset`, ensuring keyboard selection stays on visible items after filtering.
 
 ---
 
@@ -475,14 +475,14 @@ export default class extends Controller {
 class FilterTest < ActiveSupport::TestCase
   test "cards" do
     # Test multiple filter conditions
-    filter = users(:david).filters.new(
-      creator_ids: [ users(:david).id ],
+    filter = users(:owner).filters.new(
+      creator_ids: [ users(:owner).id ],
       tag_ids: [ tags(:mobile).id ]
     )
     assert_equal [ cards(:layout) ], filter.cards
 
     # Test unassigned filter
-    filter = users(:david).filters.new(
+    filter = users(:owner).filters.new(
       assignment_status: "unassigned",
       board_ids: [ @new_board.id ]
     )
@@ -491,9 +491,9 @@ class FilterTest < ActiveSupport::TestCase
 
   test "can't see cards in boards that aren't accessible" do
     boards(:writebook).update! all_access: false
-    boards(:writebook).accesses.revoke_from users(:david)
+    boards(:writebook).accesses.revoke_from users(:owner)
 
-    assert_empty users(:david).filters.new(
+    assert_empty users(:owner).filters.new(
       board_ids: [ boards(:writebook).id ]
     ).cards
   end
@@ -501,7 +501,7 @@ class FilterTest < ActiveSupport::TestCase
   test "remembering equivalent filters" do
     # Test that equivalent filters are deduped
     assert_difference "Filter.count", +1 do
-      filter = users(:david).filters.remember(
+      filter = users(:owner).filters.remember(
         sorted_by: "latest",
         assignment_status: "unassigned",
         tag_ids: [ tags(:mobile).id ]
@@ -509,7 +509,7 @@ class FilterTest < ActiveSupport::TestCase
 
       assert_changes "filter.reload.updated_at" do
         # Same filter params should update existing, not create new
-        assert_equal filter, users(:david).filters.remember(
+        assert_equal filter, users(:owner).filters.remember(
           tag_ids: [ tags(:mobile).id ],
           assignment_status: "unassigned"
         )
@@ -518,7 +518,7 @@ class FilterTest < ActiveSupport::TestCase
   end
 
   test "turning into params" do
-    filter = users(:david).filters.new(
+    filter = users(:owner).filters.new(
       sorted_by: "latest",
       tag_ids: "",
       assignee_ids: [ users(:jz).id ],

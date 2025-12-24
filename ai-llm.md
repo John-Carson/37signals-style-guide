@@ -1,12 +1,12 @@
 # AI/LLM Integration Patterns
 
-> Patterns from 37signals for integrating AI/LLM features into Rails apps.
+> Patterns for integrating AI/LLM features into Rails apps.
 
 ---
 
-## Command Pattern with STI ([#460](https://github.com/basecamp/fizzy/pull/460), [#464](https://github.com/basecamp/fizzy/pull/464), [#466](https://github.com/basecamp/fizzy/pull/466))
+## Command Pattern with STI (this update, this update, this update)
 
-**Context**: "Fizzy Do" is a command palette that lets users perform actions by typing commands like `/assign @kevin`, `/close`, `/tag bug`. Commands are persisted to enable undo functionality and command history.
+**Context**: "the application Do" is a command palette that lets users perform actions by typing commands like `/assign @kevin`, `/close`, `/tag bug`. Commands are persisted to enable undo functionality and command history.
 
 **Pattern**: Use Single Table Inheritance for command objects. Each command type (Assign, Close, Tag) inherits from a base `Command` class, storing type-specific data in a JSON column.
 
@@ -76,7 +76,7 @@ end
 - `store_accessor` on a JSON column stores command-specific data (assignee IDs, toggled state for undo)
 - The `undo!` method wraps `undo` + `destroy` in a transaction for atomic rollback
 
-## Context Objects for Parsing ([#460](https://github.com/basecamp/fizzy/pull/460))
+## Context Objects for Parsing (this update)
 
 **Problem**: Commands like `/assign` need to know which cards to operate on. The target cards depend on where the user is—viewing a single card, or a filtered list of cards.
 
@@ -115,7 +115,7 @@ end
 
 **Key technique**: `Rails.application.routes.recognize_path` extracts controller/action/params from URL strings, letting you programmatically understand what page the user is viewing.
 
-## Cost Tracking in Microcents ([#978](https://github.com/basecamp/fizzy/pull/978))
+## Cost Tracking in Microcents (this update)
 
 **Problem**: LLM API costs are tiny per-request but add up. You need precise tracking for budgeting and per-feature cost analysis.
 
@@ -138,7 +138,7 @@ Event::ActivitySummary.create!(
 
 **Naming convention**: Use `_in_` particle for unit clarity: `cost_in_microcents` not `cost_microcents`. This was renamed across the entire codebase for consistency.
 
-## Result Objects for Responses ([#460](https://github.com/basecamp/fizzy/pull/460), [#857](https://github.com/basecamp/fizzy/pull/857))
+## Result Objects for Responses (this update, this update)
 
 **Problem**: Commands can result in different outcomes—redirects, modals, refreshes. Coupling commands directly to HTTP responses makes them hard to test and reuse.
 
@@ -162,11 +162,11 @@ def respond_with_execution_result(result)
 end
 ```
 
-**Why `ShowModal`?**: "Fizzy Ask" opens a chat modal where users can have a conversation with an LLM. The command parser returns a `ShowModal` result, and the controller renders JSON that tells the frontend which Turbo Frame to load.
+**Why `ShowModal`?**: "the application Ask" opens a chat modal where users can have a conversation with an LLM. The command parser returns a `ShowModal` result, and the controller renders JSON that tells the frontend which Turbo Frame to load.
 
-## Tool Pattern for LLM Function Calling ([#857](https://github.com/basecamp/fizzy/pull/857))
+## Tool Pattern for LLM Function Calling (this update)
 
-**Context**: "Fizzy Ask" is an LLM-powered chat interface for exploring cards, comments, and users through natural conversation. The LLM accesses data through tools (similar to function calling).
+**Context**: "the application Ask" is an LLM-powered chat interface for exploring cards, comments, and users through natural conversation. The LLM accesses data through tools (similar to function calling).
 
 **Pattern**: Tools are like controllers for LLM interactions—they gather data and produce responses:
 
@@ -228,7 +228,7 @@ end
 - Tools handle pagination to avoid overwhelming the LLM context window
 - The interface is intentionally simple; view-layer serialization lives in the tool for now, with plans to extract it when building a proper API
 
-## Confirmation Pattern for Bulk Operations ([#464](https://github.com/basecamp/fizzy/pull/464))
+## Confirmation Pattern for Bulk Operations (this update)
 
 **Problem**: Bulk operations (closing 50 cards) need user confirmation, but single-item operations shouldn't require extra clicks.
 
@@ -266,7 +266,7 @@ end
 
 **Why HTTP 409?** It's stateless—no server-side session needed. The frontend shows a confirmation dialog, then resubmits with `confirmed=true`. The command title (returned in the response body) is shown in the confirmation prompt.
 
-## Filter Registry Pattern ([#857](https://github.com/basecamp/fizzy/pull/857))
+## Filter Registry Pattern (this update)
 
 **Context**: LLM tools need to filter records based on user queries ("show me cards tagged 'bug' created after January"). This pattern keeps filter logic organized and reusable.
 
@@ -301,7 +301,7 @@ end
 
 **Note**: Filters are currently namespaced per-tool as an experimental approach. The plan is to move them to model-level `filtered_by(**filters)` methods once the patterns stabilize for API use.
 
-## Order Clause Parser ([#857](https://github.com/basecamp/fizzy/pull/857))
+## Order Clause Parser (this update)
 
 **Problem**: LLMs may request sorting like "order by created_at desc, name asc". You need to safely parse this without SQL injection risk.
 

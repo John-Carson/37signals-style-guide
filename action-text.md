@@ -6,8 +6,6 @@
 
 ## Sanitizer Configuration in Production
 
-**PR**: [#873](https://github.com/basecamp/fizzy/pull/873)
-
 **Problem**: In production with eager loading enabled, Action Text's default sanitizer config doesn't automatically inherit from your custom Rails sanitizer settings. This means tags/attributes you've whitelisted for the rest of your app won't work in Action Text content.
 
 **Solution**: Explicitly sync Action Text's allowed tags and attributes with your Rails sanitizer config in an initializer:
@@ -45,8 +43,6 @@ end
 ---
 
 ## 2. Custom HTML Processing at Render Time
-
-**PR**: [#564](https://github.com/basecamp/fizzy/pull/564)
 
 **Pattern**: Override Action Text's content layout to apply custom HTML transformations (like autolinking) at render time, not at save time.
 
@@ -182,8 +178,6 @@ end
 
 ## 3. Link Retargeting for Turbo Frame Escaping
 
-**PR**: [#564](https://github.com/basecamp/fizzy/pull/564)
-
 **Pattern**: Use a Stimulus controller to automatically retarget links in rich text content based on domain.
 
 **Why it matters**:
@@ -224,8 +218,6 @@ Apply to your rich text content:
 
 ## 4. Graceful Handling of Malformed Attachments
 
-**PR**: [#1859](https://github.com/basecamp/fizzy/pull/1859)
-
 **Problem**: Action Text remote image attachments can fail to render if they have malformed URLs or missing attributes, causing the entire page to error.
 
 **Solution**: Use `skip_pipeline: true` for remote images to bypass Rails' asset pipeline processing:
@@ -254,7 +246,7 @@ Apply to your rich text content:
 test "show card with comment containing malformed remote image attachment" do
   card = cards(:logo)
   card.comments.create!(
-    creator: users(:kevin),
+    creator: users(:member),
     body: '<action-text-attachment url="image.png" content-type="image/*" presentation="gallery"></action-text-attachment>'
   )
 
@@ -271,7 +263,7 @@ end
 
 **Pattern**: Override Action Text's default attachment partials to customize rendering.
 
-**Example from Fizzy**:
+**Example:**
 
 ```erb
 <!-- app/views/action_text/attachables/_remote_video.html.erb -->
@@ -300,7 +292,7 @@ end
 
 **Pattern**: Create a dedicated `.rich-text-content` CSS scope that styles all possible HTML elements users might add.
 
-**Key considerations from Fizzy's implementation**:
+**Key considerations:**
 
 ```css
 /* Base styling scope */
@@ -409,8 +401,6 @@ end
 ---
 
 ## 8. Rich Text Applied to Forms (Edge Case)
-
-**PR**: [#912](https://github.com/basecamp/fizzy/pull/912)
 
 **Problem**: When applying `.rich-text-content` CSS to a form containing Action Text fields, the styles may not apply to newly created records until the page refreshes.
 

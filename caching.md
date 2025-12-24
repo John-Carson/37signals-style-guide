@@ -1,6 +1,6 @@
 # Caching Patterns
 
-> HTTP caching and fragment caching lessons from 37signals.
+> HTTP caching and fragment caching lessons.
 
 ---
 
@@ -38,14 +38,14 @@ The ETag is computed from each object's `cache_key_with_version` (which includes
 
 ### Don't HTTP Cache Forms
 
-CSRF tokens get stale → 422 errors on submit ([#1607](https://github.com/basecamp/fizzy/pull/1607))
+CSRF tokens get stale → 422 errors on submit (this update)
 
 Remove `fresh_when` from pages with forms.
 
 ### Public Caching
 
 - Safe for read-only public pages
-- 30 seconds is reasonable ([#1377](https://github.com/basecamp/fizzy/pull/1377))
+- 30 seconds is reasonable (this update)
 - Use concern to DRY up cache headers
 
 ## Fragment Caching
@@ -66,7 +66,7 @@ cache [card, Current.user.id]  # if user-specific
 - User ID affects personalized content
 - Filter state affects what's shown
 
-### Touch Chains for Dependencies ([#566](https://github.com/basecamp/fizzy/pull/566))
+### Touch Chains for Dependencies (this update)
 
 ```ruby
 class Workflow::Stage < ApplicationRecord
@@ -81,7 +81,7 @@ Changes to children automatically update parent timestamps:
 cache [card, card.collection.workflow]
 ```
 
-### Domain Models for Cache Keys ([#1132](https://github.com/basecamp/fizzy/pull/1132))
+### Domain Models for Cache Keys (this update)
 
 For complex views, create dedicated cache key objects:
 
@@ -96,7 +96,7 @@ class Cards::Columns
 end
 ```
 
-## Lazy-Loaded Content with Turbo Frames ([#1089](https://github.com/basecamp/fizzy/pull/1089))
+## Lazy-Loaded Content with Turbo Frames (this update)
 
 Expensive menus (with multiple database queries) can slow down every page load. Convert them to lazy-loaded turbo frames that only load when needed:
 
@@ -178,7 +178,7 @@ export default class extends Controller {
 
 See also: [Stimulus for Cached Fragment Personalization](hotwire.md#stimulus-for-cached-fragment-personalization-124) for the full pattern using a global `Current` object.
 
-## Extract Dynamic Content to Turbo Frames ([#317](https://github.com/basecamp/fizzy/pull/317))
+## Extract Dynamic Content to Turbo Frames (this update)
 
 When part of a cached fragment needs frequent updates, extract it to a turbo frame:
 

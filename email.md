@@ -22,7 +22,7 @@ class ApplicationMailer < ActionMailer::Base
 end
 ```
 
-**Environment Configuration** (from PR [#314](https://github.com/basecamp/fizzy/pull/314)):
+**Environment Configuration** (from PR this update):
 ```ruby
 # config/environments/production.rb
 config.action_mailer.default_url_options = { host: "%{tenant}.example.com" }
@@ -39,7 +39,7 @@ config.action_mailer.default_url_options = { host: "example.com" }
 - Centralizing this logic prevents scattered tenant-handling code across mailers
 - The `%{tenant}` placeholder works with ActiveRecord::Tenanted gem integration
 
-**From**: PR [#314](https://github.com/basecamp/fizzy/pull/314) (Configure tenanted Action Mailer URL helpers)
+**From**: PR this update (Configure tenanted Action Mailer URL helpers)
 
 ---
 
@@ -65,7 +65,7 @@ def in_time_zone(&block)
 end
 ```
 
-**Test Coverage** (from PR [#1326](https://github.com/basecamp/fizzy/pull/1326)):
+**Test Coverage** (from PR this update):
 ```ruby
 test "deliver sends email with time in user's time zone" do
   @user.settings.update!(timezone_name: "Madrid")
@@ -90,7 +90,7 @@ end
 - `Time.use_zone` creates a block-scoped timezone context
 - Tests should verify timezone handling with actual timezone calculations
 
-**From**: PR [#1326](https://github.com/basecamp/fizzy/pull/1326) (Fix: use user timezone when delivering notification emails)
+**From**: PR this update (Fix: use user timezone when delivering notification emails)
 
 ---
 
@@ -115,7 +115,7 @@ def avatar_background_color(user)
 end
 ```
 
-**Email Layout CSS** (from PR [#1525](https://github.com/basecamp/fizzy/pull/1525)):
+**Email Layout CSS** (from PR this update):
 ```css
 .avatar {
   border-radius: 50%;
@@ -160,9 +160,8 @@ end
 - Text-based initials with colored backgrounds provide graceful degradation
 - Using CRC32 hash ensures consistent colors per user
 - Tests should verify both HTML structure and inline styles
-- Even HEY (37signals' email service) doesn't support SVG
 
-**From**: PR [#1525](https://github.com/basecamp/fizzy/pull/1525) (Render SVG avatars with regular HTML in emails)
+**From**: PR this update (Render SVG avatars with regular HTML in emails)
 
 ---
 
@@ -204,7 +203,7 @@ end
 - Smart defaults reduce required configuration
 - Conditional setup means SMTP is opt-in via environment
 
-**From**: PR [#1911](https://github.com/basecamp/fizzy/pull/1911) (Configure email delivery in production using environment variables)
+**From**: PR this update (Configure email delivery in production using environment variables)
 
 ---
 
@@ -410,7 +409,7 @@ end
 - `!important` needed to override client defaults
 - Keep it simple - complex CSS will break
 
-**From**: PR [#1067](https://github.com/basecamp/fizzy/pull/1067) (Further polish mailer styles and type hierarchy)
+**From**: PR this update (Further polish mailer styles and type hierarchy)
 
 ---
 
@@ -436,7 +435,7 @@ end
 - Preview in development via `/rails/mailers/notification/bundle_mailer/notification`
 - Catches multi-tenant bugs before production
 
-**From**: PR [#314](https://github.com/basecamp/fizzy/pull/314) and implementation in codebase
+**From**: PR this update and implementation in codebase
 
 ---
 
@@ -488,7 +487,7 @@ config.action_mailer.default_url_options = { host: "example.com" }
 - Use `assert_difference` to verify delivery actually happened
 - Mock file attachments (avatars) with fixture files in `test/fixtures/files/`
 
-**From**: PR [#1525](https://github.com/basecamp/fizzy/pull/1525) and [#1326](https://github.com/basecamp/fizzy/pull/1326) (test implementations)
+**From**: PR this update and this update (test implementations)
 
 ---
 
@@ -505,4 +504,4 @@ config.action_mailer.default_url_options = { host: "example.com" }
 9. **Previews**: Set tenant context in mailer previews for accurate rendering
 10. **Simplicity**: Keep email layouts simple - what works in browsers often breaks in email
 
-All patterns are production-tested in Fizzy, a multi-tenant Rails app handling real-world email delivery at scale.
+All patterns are production-tested in the application, a multi-tenant Rails app handling real-world email delivery at scale.

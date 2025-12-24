@@ -1,6 +1,6 @@
 # Security Checklist
 
-> Security patterns and gotchas from 37signals.
+> Security patterns and gotchas.
 
 ---
 
@@ -15,17 +15,17 @@
 "<span>#{h(user_input)}</span>".html_safe
 ```
 
-Escape in helpers, not views ([#1114](https://github.com/basecamp/fizzy/pull/1114)).
+Escape in helpers, not views (this update).
 
 ## CSRF Protection
 
 ### Don't HTTP Cache Pages With Forms
-CSRF tokens get stale → 422 errors on form submit ([#1607](https://github.com/basecamp/fizzy/pull/1607))
+CSRF tokens get stale → 422 errors on form submit (this update)
 
 ### Sec-Fetch-Site Header
 Additional CSRF check using browser's `Sec-Fetch-Site` header:
-1. Report mode first to observe ([#1721](https://github.com/basecamp/fizzy/pull/1721))
-2. Enforce after validation ([#1751](https://github.com/basecamp/fizzy/pull/1751))
+1. Report mode first to observe (this update)
+2. Enforce after validation (this update)
 
 Defense in depth - use alongside traditional tokens.
 
@@ -33,7 +33,7 @@ Defense in depth - use alongside traditional tokens.
 
 For webhooks and any user-provided URLs:
 
-### DNS Rebinding Protection ([#1903](https://github.com/basecamp/fizzy/pull/1903))
+### DNS Rebinding Protection (this update)
 ```ruby
 # Resolve DNS once, pin the IP
 resolved_ip = resolve_dns(url)
@@ -41,7 +41,7 @@ resolved_ip = resolve_dns(url)
 Net::HTTP.new(host, port, ipaddr: resolved_ip)
 ```
 
-### Block Private Networks ([#1905](https://github.com/basecamp/fizzy/pull/1905))
+### Block Private Networks (this update)
 - Loopback (127.0.0.0/8)
 - Private (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)
 - Link-local (169.254.0.0/16) - AWS metadata!
@@ -52,14 +52,14 @@ Check at creation time AND request time.
 
 ## ActionText / Rich Text
 
-### Sanitizer Config ([#873](https://github.com/basecamp/fizzy/pull/873))
+### Sanitizer Config (this update)
 ```ruby
 # In after_initialize - eager loading bypasses config otherwise
 ActionText::ContentHelper.allowed_tags = ...
 ActionText::ContentHelper.allowed_attributes = ...
 ```
 
-### Remote Images ([#1859](https://github.com/basecamp/fizzy/pull/1859))
+### Remote Images (this update)
 ```ruby
 # Use skip_pipeline for external URLs
 image_tag url, skip_pipeline: true
@@ -68,7 +68,7 @@ Asset pipeline can't process arbitrary external URLs.
 
 ## Multi-tenancy
 
-### Scope Broadcasts ([#1800](https://github.com/basecamp/fizzy/pull/1800))
+### Scope Broadcasts (this update)
 ```ruby
 # Bad - leaks across tenants
 broadcast_to :all_boards
@@ -77,14 +77,14 @@ broadcast_to :all_boards
 broadcast_to [account, :all_boards]
 ```
 
-### Disconnect Deactivated Users ([#1810](https://github.com/basecamp/fizzy/pull/1810))
+### Disconnect Deactivated Users (this update)
 ```ruby
 ActionCable.server.remote_connections
   .where(current_user: self)
   .disconnect(reconnect: false)
 ```
 
-## Content Security Policy ([#1964](https://github.com/basecamp/fizzy/pull/1964))
+## Content Security Policy (this update)
 
 ```ruby
 # config/initializers/content_security_policy.rb
@@ -102,7 +102,7 @@ config.content_security_policy_report_only = ENV["CSP_REPORT_ONLY"] == "true"
 
 Use nonce-based script loading for importmap support.
 
-## Sec-Fetch-Site as CSRF Fallback ([#1721](https://github.com/basecamp/fizzy/pull/1721), [#1751](https://github.com/basecamp/fizzy/pull/1751))
+## Sec-Fetch-Site as CSRF Fallback (this update, this update)
 
 ```ruby
 def verified_request?
@@ -118,7 +118,7 @@ end
 
 Add `Sec-Fetch-Site` to Vary header for proper caching.
 
-## Rate Limiting ([#1304](https://github.com/basecamp/fizzy/pull/1304))
+## Rate Limiting (this update)
 
 Use Rails 7.2+ built-in rate limiting for auth endpoints:
 
@@ -140,7 +140,7 @@ end
 - External API calls
 - Resource creation endpoints
 
-## Authorization Patterns ([#1083](https://github.com/basecamp/fizzy/pull/1083))
+## Authorization Patterns (this update)
 
 Use controller concerns for consistent authorization:
 

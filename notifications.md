@@ -11,7 +11,7 @@
 **Why it matters**: Timestamps provide both state AND temporal information, enabling time-based queries and analytics without additional columns.
 
 ```ruby
-# From PR [#208](https://github.com/basecamp/fizzy/pull/208)
+# From PR this update
 class Notification < ApplicationRecord
   scope :unread, -> { where(read_at: nil) }
   scope :read, -> { where.not(read_at: nil) }
@@ -46,7 +46,7 @@ end
 **Why it matters**: Lightweight, immutable design that avoids complex many-to-many relationships.
 
 ```ruby
-# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
+# From PR this update
 class Notification::Bundle < ApplicationRecord
   belongs_to :user
 
@@ -77,7 +77,7 @@ end
 
 **Validation to prevent overlapping bundles**:
 ```ruby
-# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
+# From PR this update
 validate :validate_no_overlapping
 
 def validate_no_overlapping
@@ -102,7 +102,7 @@ end
 **Why it matters**: Keeps User model focused, makes settings easier to test, and enables settings-specific logic.
 
 ```ruby
-# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
+# From PR this update
 module User::Configurable
   extend ActiveSupport::Concern
 
@@ -142,7 +142,7 @@ end
 
 **Reactive settings changes**:
 ```ruby
-# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
+# From PR this update
 after_update :review_pending_bundles, if: :saved_change_to_bundle_email_frequency?
 
 def review_pending_bundles
@@ -163,7 +163,7 @@ end
 **Why it matters**: Zero-touch bundling - developers creating notifications don't need to remember to bundle.
 
 ```ruby
-# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
+# From PR this update
 class Notification < ApplicationRecord
   after_create :bundle
 
@@ -206,7 +206,7 @@ end
 **Why it matters**: Parallelizes delivery while managing memory and avoiding timeouts.
 
 ```ruby
-# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
+# From PR this update
 class Notification::Bundle::DeliverAllJob < ApplicationJob
   queue_as :backend
 
@@ -258,13 +258,13 @@ deliver_bundled_notifications:
 **Why it matters**: Notifications stay in sync across browser tabs without polling.
 
 ```ruby
-# From PR [#475](https://github.com/basecamp/fizzy/pull/475)
+# From PR this update
 class Notification < ApplicationRecord
   after_create_commit :broadcast_unread
 
   def read
     update!(read_at: Time.current)
-    broadcast_read  # Added in PR [#475](https://github.com/basecamp/fizzy/pull/475)
+    broadcast_read  # Added in PR this update
   end
 
   private
@@ -298,7 +298,7 @@ end
 **Why it matters**: Progressive loading without "Load More" buttons or complex state management.
 
 ```javascript
-// From PR [#208](https://github.com/basecamp/fizzy/pull/208)
+// From PR this update
 import { Controller } from "@hotwired/stimulus"
 import { get } from "@rails/request.js"
 
@@ -328,7 +328,7 @@ export default class extends Controller {
 
 **View usage**:
 ```erb
-<!-- From PR [#208](https://github.com/basecamp/fizzy/pull/208) -->
+<!-- From PR this update -->
 <%= tag.div id: "next_page", data: {
   controller: "fetch-on-visible",
   fetch_on_visible_url_value: notifications_path(page: @page.next_param)
@@ -356,7 +356,7 @@ end
 **Why it matters**: Reduces clutter in notification tray, works dynamically with new notifications.
 
 ```javascript
-// From PR [#1448](https://github.com/basecamp/fizzy/pull/1448)
+// From PR this update
 export default class extends Controller {
   static targets = [ "notification", "hiddenNotifications" ]
   static classes = [ "grouped" ]
@@ -420,7 +420,7 @@ export default class extends Controller {
 **Why it matters**: Follows Rails conventions, clearer routing, easier to test.
 
 ```ruby
-# From PR [#405](https://github.com/basecamp/fizzy/pull/405) - Refactored from custom actions to resourceful routes
+# From PR this update - Refactored from custom actions to resourceful routes
 
 # BEFORE: Custom actions on NotificationsController
 post "notifications/:id/mark_read"
@@ -465,7 +465,7 @@ end
 **Why it matters**: Stateless tokens that expire automatically, no database lookups needed for validation.
 
 ```ruby
-# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
+# From PR this update
 module User::Notifiable
   included do
     generates_token_for :unsubscribe, expires_in: 1.month
@@ -497,7 +497,7 @@ end
 
 **Unsubscribe controller**:
 ```ruby
-# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
+# From PR this update
 class Notifications::UnsubscribesController < ApplicationController
   allow_unauthenticated_access
   skip_before_action :verify_authenticity_token
@@ -533,7 +533,7 @@ end
 **Why it matters**: Ensures emails render consistently across all email clients.
 
 ```erb
-<!-- From PR [#974](https://github.com/basecamp/fizzy/pull/974) -->
+<!-- From PR this update -->
 <table>
   <tr>
     <td class="avatar__container">
@@ -563,7 +563,7 @@ end
 </style>
 ```
 
-**Group notifications by subject in email** (PR [#1574](https://github.com/basecamp/fizzy/pull/1574)):
+**Group notifications by subject in email** (PR this update):
 ```erb
 <!-- Aggregate by card to reduce email clutter -->
 <% @notifications.group_by(&:card).each do |card, notifications| %>
@@ -581,10 +581,10 @@ end
 **Pattern**: Test time windows, bundling behavior, and state transitions.
 
 ```ruby
-# From PR [#974](https://github.com/basecamp/fizzy/pull/974)
+# From PR this update
 class Notification::BundleTest < ActiveSupport::TestCase
   setup do
-    @user = users(:david)
+    @user = users(:owner)
     @user.settings.bundle_email_every_few_hours!
   end
 
@@ -657,10 +657,10 @@ end
 
 ## Further Reading
 
-- **PR [#208](https://github.com/basecamp/fizzy/pull/208)**: Notification index with pagination
-- **PR [#306](https://github.com/basecamp/fizzy/pull/306)**: Quieter notifications (subscription vs. watching)
-- **PR [#405](https://github.com/basecamp/fizzy/pull/405)**: Refactored to RESTful controllers
-- **PR [#475](https://github.com/basecamp/fizzy/pull/475)**: Broadcasting notification reads
-- **PR [#974](https://github.com/basecamp/fizzy/pull/974)**: Full bundled email implementation
-- **PR [#1448](https://github.com/basecamp/fizzy/pull/1448)**: Client-side grouping by card
-- **PR [#1574](https://github.com/basecamp/fizzy/pull/1574)**: Email grouping by card
+- **PR this update**: Notification index with pagination
+- **PR this update**: Quieter notifications (subscription vs. watching)
+- **PR this update**: Refactored to RESTful controllers
+- **PR this update**: Broadcasting notification reads
+- **PR this update**: Full bundled email implementation
+- **PR this update**: Client-side grouping by card
+- **PR this update**: Email grouping by card

@@ -1,6 +1,6 @@
 # Background Jobs
 
-> Solid Queue patterns from 37signals.
+> Solid Queue patterns.
 
 ---
 
@@ -11,15 +11,15 @@
 # Run jobs in Puma process
 export SOLID_QUEUE_IN_PUMA=1
 ```
-Simplifies dev - no separate worker process ([#469](https://github.com/basecamp/fizzy/pull/469)).
+Simplifies dev - no separate worker process (this update).
 
 ### Production
-- Match workers to CPU cores ([#1290](https://github.com/basecamp/fizzy/pull/1290))
-- 3 threads for I/O-bound jobs ([#1329](https://github.com/basecamp/fizzy/pull/1329))
+- Match workers to CPU cores (this update)
+- 3 threads for I/O-bound jobs (this update)
 
 ## Stagger Recurring Jobs
 
-Prevent resource spikes by offsetting schedules ([#1329](https://github.com/basecamp/fizzy/pull/1329)):
+Prevent resource spikes by offsetting schedules (this update):
 
 ```yaml
 # Bad - all at :00
@@ -33,7 +33,7 @@ job_b: every hour at minute 50
 
 ## Transaction Safety
 
-### Enqueue After Commit ([#1664](https://github.com/basecamp/fizzy/pull/1664))
+### Enqueue After Commit (this update)
 ```ruby
 # In initializer
 ActiveJob::Base.enqueue_after_transaction_commit = true
@@ -44,7 +44,7 @@ Fixes `ActiveStorage::FileNotFoundError` on uploads.
 
 ## Error Handling
 
-### Transient Errors ([#1924](https://github.com/basecamp/fizzy/pull/1924))
+### Transient Errors (this update)
 
 Retry network and temporary SMTP errors with polynomial backoff:
 
@@ -113,14 +113,14 @@ end
 
 ## Maintenance Jobs
 
-### Clean Finished Jobs ([#943](https://github.com/basecamp/fizzy/pull/943))
+### Clean Finished Jobs (this update)
 ```yaml
 clear_finished_jobs:
   command: "SolidQueue::Job.clear_finished_in_batches"
   schedule: every hour at minute 12
 ```
 
-### Clean Orphaned Data ([#494](https://github.com/basecamp/fizzy/pull/494))
+### Clean Orphaned Data (this update)
 - Unused tags (daily)
 - Old webhook deliveries (every 4 hours)
 - Expired magic links
@@ -202,7 +202,7 @@ end
 
 **Key insight**: The `_later` method is usually private and called from callbacks. The plain method name (`deliver`, `notify_recipients`) is the public API that the job invokes. This keeps the job class shallow—it just calls the model method.
 
-## Continuable Jobs for Resilient Iteration ([#1083](https://github.com/basecamp/fizzy/pull/1083))
+## Continuable Jobs for Resilient Iteration (this update)
 
 Use `ActiveJob::Continuable` to resume from where you left off after crashes:
 

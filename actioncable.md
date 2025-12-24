@@ -44,7 +44,7 @@ end
 - Reject connection if either validation fails
 - Set `Current.account` so broadcasts respect tenant boundaries
 
-**From**: PR [#699](https://github.com/basecamp/fizzy/pull/699), [#1765](https://github.com/basecamp/fizzy/pull/1765), [#1800](https://github.com/basecamp/fizzy/pull/1800)
+**From**: PR this update, this update, this update
 
 ### Testing Connection Authentication
 
@@ -74,7 +74,7 @@ end
 
 **Why it matters**: Connection tests verify the critical security boundary. Use `ActionCable::Connection::TestCase` to test authentication without a full integration test.
 
-**From**: PR [#1810](https://github.com/basecamp/fizzy/pull/1810)
+**From**: PR this update
 
 ### Forcibly Disconnect Users
 
@@ -109,7 +109,7 @@ test "deactivate" do
 end
 ```
 
-**From**: PR [#1810](https://github.com/basecamp/fizzy/pull/1810)
+**From**: PR this update
 
 ## Broadcast Strategies
 
@@ -145,7 +145,7 @@ end
 <% end %>
 ```
 
-**From**: PR [#1432](https://github.com/basecamp/fizzy/pull/1432), [#1800](https://github.com/basecamp/fizzy/pull/1800)
+**From**: PR this update, this update
 
 ### Account-Scoped Broadcasts Prevent DoS
 
@@ -161,7 +161,7 @@ end
 
 **Why it matters**: Without account scoping, a single update in one tenant triggers broadcasts to ALL connected clients across ALL tenants. This is a self-DoS vulnerability that can bring down your application under load.
 
-**From**: PR [#1800](https://github.com/basecamp/fizzy/pull/1800) (titled "Scope general broadcasts by account - Because DoS ourselves is not fun")
+**From**: PR this update (titled "Scope general broadcasts by account - Because DoS ourselves is not fun")
 
 ### Conditional Broadcast Targets
 
@@ -173,7 +173,7 @@ broadcasts_refreshes_to ->(board) { [ board.account, :all_boards ] }
 
 **Why it matters**: Broadcast targets often depend on model attributes. Lambdas allow dynamic resolution while keeping broadcast logic in the model.
 
-**From**: PR [#1765](https://github.com/basecamp/fizzy/pull/1765), [#1800](https://github.com/basecamp/fizzy/pull/1800)
+**From**: PR this update, this update
 
 ## Turbo Stream Patterns
 
@@ -208,7 +208,7 @@ end
 
 **Why it matters**: Individual model updates trigger `after_commit` callbacks that broadcast changes. When you need the UI to update via ActionCable, iterate instead of batch updating. The empty `turbo_stream` response prevents double-updates.
 
-**From**: PR [#705](https://github.com/basecamp/fizzy/pull/705)
+**From**: PR this update
 
 ### Broadcast Removal Pattern
 
@@ -234,7 +234,7 @@ private
 
 **Why it matters**: Both reading and destroying notifications should remove them from the UI. Consolidate the broadcast logic so both actions use the same removal mechanism.
 
-**From**: PR [#705](https://github.com/basecamp/fizzy/pull/705)
+**From**: PR this update
 
 ## Multi-Tenant ActionCable Configuration
 
@@ -265,7 +265,7 @@ content: "#{request.script_name}#{ActionCable.server.config.mount_path}"
 
 **Why it matters**: In path-based multi-tenancy, the WebSocket URL must include the account path prefix so middleware can extract the tenant context.
 
-**From**: PR [#699](https://github.com/basecamp/fizzy/pull/699)
+**From**: PR this update
 
 ### Solid Cable for Database-Backed WebSockets
 
@@ -313,7 +313,7 @@ if type == :text || type == :binary
 end
 ```
 
-**From**: PR [#1765](https://github.com/basecamp/fizzy/pull/1765)
+**From**: PR this update
 
 ## Monitoring and Metrics
 
@@ -344,7 +344,7 @@ production:
 
 **Why it matters**: Monitor WebSocket connection counts, message rates, and subscription patterns. Critical for diagnosing broadcast performance issues and connection problems.
 
-**From**: PR [#1291](https://github.com/basecamp/fizzy/pull/1291)
+**From**: PR this update
 
 ## Testing Patterns
 
@@ -382,7 +382,7 @@ end
 
 **Why it matters**: Broadcast failures are silent in production. Testing ensures critical real-time updates actually happen.
 
-**From**: PR [#705](https://github.com/basecamp/fizzy/pull/705), [#1810](https://github.com/basecamp/fizzy/pull/1810)
+**From**: PR this update, this update
 
 ### Test Adapter Configuration
 
@@ -394,7 +394,7 @@ test:
 
 **Why it matters**: The test adapter is synchronous and designed for assertions. Don't use your production adapter in tests.
 
-**From**: PR [#1765](https://github.com/basecamp/fizzy/pull/1765)
+**From**: PR this update
 
 ## Performance Considerations
 
@@ -410,7 +410,7 @@ end
 
 **Why it matters**: Broadcasts can be slow. Using `_later` variants queues the broadcast as a background job, keeping requests fast.
 
-**From**: PR [#705](https://github.com/basecamp/fizzy/pull/705)
+**From**: PR this update
 
 ### Selective Subscriptions
 
@@ -429,7 +429,7 @@ end
 
 **Why it matters**: Reduces unnecessary WebSocket traffic. Users only receive updates for data they can see.
 
-**From**: PR [#1432](https://github.com/basecamp/fizzy/pull/1432)
+**From**: PR this update
 
 ## Summary
 

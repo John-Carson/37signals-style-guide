@@ -1,4 +1,4 @@
-# 37signals Development Philosophy
+# Development Philosophy
 
 ---
 
@@ -59,7 +59,7 @@ Design caching early - it reveals architectural issues:
 
 **Pattern**: Consistently challenge abstractions that don't justify their existence.
 
-> "I find these explicit classes for the notifier rather anemic. And there's not as much future potential for a million more (unlike Basecamp). Think we're better off inlining them."
+> "I find these explicit classes for the notifier rather anemic. And there's not as much future potential for a million more (unlike the organization). Think we're better off inlining them."
 
 > "Good example of how this is getting confusing and very indirect between source and resource. And there just aren't enough variations to warrant this level of indirection."
 
@@ -765,7 +765,6 @@ end
 
 ---
 
-
 ### Domain-Driven Naming
 
 **Pattern**: Choose names that reflect business reality, not implementation.
@@ -824,7 +823,6 @@ end
 - Creates clear ownership of concepts
 
 ---
-
 
 ### Custom Types: Only When Justified
 
@@ -885,7 +883,6 @@ message.cost.in_dollars
 
 ---
 
-
 ### Concerns: Public Behavior Only
 
 **Pattern**: Don't extract concerns containing only private methods.
@@ -917,7 +914,6 @@ end
 - **Private methods**: Inline in main class unless very large
 
 ---
-
 
 ### Wrapping Methods: Hide or Reveal?
 
@@ -985,7 +981,6 @@ end
 **Why it matters**: Even query cache has overhead - better to call once.
 
 ---
-
 
 ### Template Caching Strategy
 
@@ -1064,7 +1059,6 @@ end
 
 ---
 
-
 ### Development Tests OK
 
 **Pattern**: It's fine to commit WIP tests, clean up before merge.
@@ -1110,7 +1104,6 @@ money.in_dollars   # => 100.0
 
 ---
 
-
 ### Fixed-Point Arithmetic for Money
 
 **Pattern**: Store money as integers (microcents) to avoid float errors.
@@ -1140,7 +1133,6 @@ end
 - Microcents give 6 decimal places of precision
 
 ---
-
 
 ### Time-Based Reset Without Cron
 
@@ -1177,7 +1169,6 @@ end
 
 ---
 
-
 ### Error Handling: Specific Errors
 
 **Pattern**: Define custom errors for business rules.
@@ -1205,7 +1196,6 @@ end
 - HTTP status codes match business rules
 
 ---
-
 
 ### JavaScript Error Handling
 
@@ -1254,7 +1244,6 @@ async #failPendingMessage(clientMessageId, response) {
 
 ---
 
-
 ### Reconsider Based on New Information
 
 **Money type decision**:
@@ -1268,7 +1257,6 @@ async #failPendingMessage(clientMessageId, response) {
 - Best solution emerges through discussion
 
 ---
-
 
 ### The "Few Lines of Code" Heuristic
 
@@ -1411,7 +1399,7 @@ Changes propagate up: comment → message → bubble, invalidating caches automa
 
 # What They Deliberately Avoid
 
-> Patterns and gems 37signals chooses NOT to use.
+> Patterns and gems we choose NOT to use.
 
 ---
 

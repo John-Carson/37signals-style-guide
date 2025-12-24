@@ -1,6 +1,6 @@
 # Hotwire Patterns
 
-> Turbo and Stimulus best practices from 37signals.
+> Turbo and Stimulus best practices.
 
 ---
 

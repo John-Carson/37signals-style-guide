@@ -1,10 +1,10 @@
 # Configuration Patterns
 
-> Rails configuration and environment management lessons from 37signals.
+> Rails configuration and environment management lessons.
 
 ---
 
-## RAILS_MASTER_KEY Pattern ([#554](https://github.com/basecamp/fizzy/pull/554))
+## RAILS_MASTER_KEY Pattern (this update)
 ```bash
 # .kamal/secrets.production
 SECRETS=$(kamal secrets fetch --adapter 1password \
@@ -19,7 +19,7 @@ RAILS_MASTER_KEY=$(kamal secrets extract RAILS_MASTER_KEY $SECRETS)
 
 ## YAML Configuration DRYness
 
-### Anchor References Over Inheritance ([#584](https://github.com/basecamp/fizzy/pull/584))
+### Anchor References Over Inheritance (this update)
 
 ```yaml
 # Before - verbose repetition
@@ -44,7 +44,7 @@ staging: *production
 - Easier to add new environments
 - Standard YAML feature, no magic
 
-### Apply to All Config Files ([#584](https://github.com/basecamp/fizzy/pull/584))
+### Apply to All Config Files (this update)
 Use this pattern consistently across:
 - `config/cable.yml`
 - `config/cache.yml`
@@ -54,7 +54,7 @@ Use this pattern consistently across:
 
 ## Environment-Specific Configuration
 
-### Explicit RAILS_ENV in Deploy Files ([#554](https://github.com/basecamp/fizzy/pull/554), [#584](https://github.com/basecamp/fizzy/pull/584))
+### Explicit RAILS_ENV in Deploy Files (this update, this update)
 
 ```yaml
 # config/deploy.production.yml
@@ -73,7 +73,7 @@ env:
 - Prevents environment confusion
 - Clear documentation of which environment you're deploying to
 
-### Environment Files Inherit from Production ([#554](https://github.com/basecamp/fizzy/pull/554), [#584](https://github.com/basecamp/fizzy/pull/584))
+### Environment Files Inherit from Production (this update, this update)
 
 ```ruby
 # config/environments/beta.rb
@@ -81,7 +81,7 @@ require_relative "production"
 
 Rails.application.configure do
   config.action_mailer.default_url_options = {
-    host: "%{tenant}.37signals.works"
+    host: "%{tenant}.app.works"
   }
 end
 ```
@@ -92,7 +92,7 @@ require_relative "production"
 
 Rails.application.configure do
   config.action_mailer.default_url_options = {
-    host: "%{tenant}.fizzy.37signals-staging.com"
+    host: "%{tenant}.appname.app-staging.com"
   }
 end
 ```
@@ -105,7 +105,7 @@ end
 
 ## Test Environment Handling
 
-### Avoid Requiring Credentials in Tests ([#647](https://github.com/basecamp/fizzy/pull/647))
+### Avoid Requiring Credentials in Tests (this update)
 
 ```ruby
 # Bad - requires encrypted credentials to run tests
@@ -130,7 +130,7 @@ http_basic_authenticate_with(
 
 ## Environment Variable Precedence
 
-### ENV Takes Priority Over Config ([#1976](https://github.com/basecamp/fizzy/pull/1976))
+### ENV Takes Priority Over Config (this update)
 
 ```ruby
 # Bad - config.x can't be overridden
@@ -148,7 +148,7 @@ report_uri = ENV.fetch("CSP_REPORT_URI") {
 - Clearer intent: "presence of ENV → use it"
 - Better for containerized deployments
 
-### Consistent Pattern for Boolean ENV Vars ([#1976](https://github.com/basecamp/fizzy/pull/1976))
+### Consistent Pattern for Boolean ENV Vars (this update)
 
 ```ruby
 # Check for key presence first, then parse value
@@ -166,7 +166,7 @@ end
 
 ## Development Environment Configuration
 
-### Feature Flags for Local Development ([#863](https://github.com/basecamp/fizzy/pull/863))
+### Feature Flags for Local Development (this update)
 
 ```ruby
 # Bad - conditional association breaks test/dev
@@ -183,7 +183,7 @@ belongs_to :signal_account, optional: true
 - Tests and development work the same way
 - Feature flags control behavior, not structure
 
-### Development Scripts for Flexibility ([#863](https://github.com/basecamp/fizzy/pull/863))
+### Development Scripts for Flexibility (this update)
 
 Create helper scripts for common dev tasks:
 
@@ -205,7 +205,7 @@ end
 - Repeatable setup processes
 - Self-documenting development tasks
 
-### Smart Seed Data ([#863](https://github.com/basecamp/fizzy/pull/863))
+### Smart Seed Data (this update)
 
 ```ruby
 # db/seeds.rb
@@ -232,7 +232,7 @@ create_tenant "production-like"
 - Work offline with `bare: true` tenants
 - Test different data scenarios easily
 
-### Dynamic Development Output ([#863](https://github.com/basecamp/fizzy/pull/863))
+### Dynamic Development Output (this update)
 
 ```bash
 # bin/dev - shows available tenants dynamically
@@ -250,7 +250,7 @@ EOF
 
 ## Kamal Deployment Configuration
 
-### Kamal Secrets Pattern ([#554](https://github.com/basecamp/fizzy/pull/554))
+### Kamal Secrets Pattern (this update)
 
 ```bash
 # .kamal/secrets.production
@@ -270,7 +270,7 @@ RAILS_MASTER_KEY=$(kamal secrets extract RAILS_MASTER_KEY $SECRETS)
 - Environment-specific secret files
 - Combines multiple secret sources (1Password + gh)
 
-### Environment-Specific Deploy Files ([#554](https://github.com/basecamp/fizzy/pull/554), [#584](https://github.com/basecamp/fizzy/pull/584))
+### Environment-Specific Deploy Files (this update, this update)
 
 ```
 config/deploy.yml          # Base configuration
@@ -285,7 +285,7 @@ config/deploy.production.yml # Production overrides
 - Environment-specific SSL/proxy settings
 - Clear separation of deployment concerns
 
-### Kamal Aliases ([#554](https://github.com/basecamp/fizzy/pull/554))
+### Kamal Aliases (this update)
 
 ```yaml
 # config/deploy.yml

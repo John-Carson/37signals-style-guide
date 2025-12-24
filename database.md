@@ -25,7 +25,7 @@ end
 
 ### UUIDv7 Format
 
-Fizzy uses time-sortable UUIDv7 (base36-encoded as 25-char strings):
+the application uses time-sortable UUIDv7 (base36-encoded as 25-char strings):
 
 ```ruby
 # Fixtures generate deterministic UUIDs
@@ -179,7 +179,7 @@ add_column :boards, :cards_count, :integer, default: 0
 
 ## Minimal Foreign Keys
 
-Fizzy uses `belongs_to` without database-level foreign keys in many places:
+the application uses `belongs_to` without database-level foreign keys in many places:
 
 ```ruby
 # No FK constraint - application handles integrity

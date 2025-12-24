@@ -2,7 +2,7 @@
 
 > Subscription patterns and toggle UI.
 
-This guide covers patterns for managing user involvement with collections and resources—specifically, how users control which notifications they receive. Rather than a separate polymorphic subscriptions system, 37signals embeds notification preferences directly into access records, using an "involvement" enum that determines notification levels.
+This guide covers patterns for managing user involvement with collections and resources—specifically, how users control which notifications they receive. Rather than a separate polymorphic subscriptions system, we embed notification preferences directly into access records, using an "involvement" enum that determines notification levels.
 
 The core concept: when a user has access to a collection (like a board or project), their `Access` record also tracks their notification preference—whether they want no notifications (`access_only`), or to be notified about activity they're watching (`watching`). This eliminates the need for a separate `Subscription` model and keeps the mental model simple.
 
@@ -14,7 +14,7 @@ The core concept: when a user has access to a collection (like a board or projec
 
 **Why it matters**: Reduces complexity, eliminates joins, and makes the mental model simpler. Every access record already represents a relationship between a user and a resource—adding notification preferences to that same record is more natural.
 
-**From PR [#310](https://github.com/basecamp/fizzy/pull/310)**:
+**From PR this update**:
 
 ### Before: Separate Subscription Model
 
@@ -115,7 +115,7 @@ end
 
 **Why it matters**: Users rarely understand complex notification settings. Simpler options lead to better UX and easier testing.
 
-**From PR [#1088](https://github.com/basecamp/fizzy/pull/1088)**:
+**From PR this update**:
 
 ### Before: Three Levels (Confusing)
 
@@ -200,7 +200,7 @@ end
 
 **Why it matters**: These are different mental models. Users want to watch specific discussions (resource-level) separately from being notified about all new items (collection-level).
 
-**From PR [#1228](https://github.com/basecamp/fizzy/pull/1228) & [#1231](https://github.com/basecamp/fizzy/pull/1231)**:
+**From PR this update & this update**:
 
 ### Collection-Level Watching (Boards/Collections)
 
@@ -274,7 +274,7 @@ end
 
 **Why it matters**: Provides instant feedback and keeps the UI in sync across multiple representations of the same state.
 
-**From PR [#1239](https://github.com/basecamp/fizzy/pull/1239)**:
+**From PR this update**:
 
 ### Controller Pattern
 
@@ -380,7 +380,7 @@ end
 
 **Why it matters**: Prevents data leaks where users retain watch subscriptions to resources they can no longer access.
 
-**From PR [#1519](https://github.com/basecamp/fizzy/pull/1519)**:
+**From PR this update**:
 
 ### Model Pattern
 
@@ -419,7 +419,7 @@ end
 
 ```ruby
 test "watches are destroyed when access is lost" do
-  kevin = users(:kevin)
+  kevin = users(:member)
   board = boards(:writebook)
   card = board.cards.first
 
@@ -445,7 +445,7 @@ end
 
 **Why it matters**: Keeps cached views up-to-date without manual cache busting logic.
 
-**From PR [#1088](https://github.com/basecamp/fizzy/pull/1088) & [#1228](https://github.com/basecamp/fizzy/pull/1228)**:
+**From PR this update & this update**:
 
 ### Touch on Association Changes
 
@@ -501,7 +501,7 @@ end
 
 **Why it matters**: Notification logic is business-critical and easy to break. Comprehensive tests prevent regressions.
 
-**From PRs [#310](https://github.com/basecamp/fizzy/pull/310), [#1088](https://github.com/basecamp/fizzy/pull/1088), [#1231](https://github.com/basecamp/fizzy/pull/1231)**:
+**From PRs this update, this update, this update**:
 
 ### Model-Level Tests
 
@@ -513,31 +513,31 @@ class Card::WatchableTest < ActiveSupport::TestCase
   end
 
   test "watched_by? when watching" do
-    cards(:logo).watch_by users(:kevin)
-    assert cards(:logo).watched_by?(users(:kevin))
+    cards(:logo).watch_by users(:member)
+    assert cards(:logo).watched_by?(users(:member))
 
-    cards(:logo).unwatch_by users(:kevin)
-    assert_not cards(:logo).watched_by?(users(:kevin))
+    cards(:logo).unwatch_by users(:member)
+    assert_not cards(:logo).watched_by?(users(:member))
   end
 
   test "cards are initially watched by their creator" do
-    card = collections(:writebook).cards.create!(creator: users(:kevin))
-    assert card.watched_by?(users(:kevin))
+    card = collections(:writebook).cards.create!(creator: users(:member))
+    assert card.watched_by?(users(:member))
   end
 
   test "watchers" do
-    collections(:writebook).access_for(users(:kevin)).watching!
+    collections(:writebook).access_for(users(:member)).watching!
     collections(:writebook).access_for(users(:jz)).watching!
 
-    cards(:logo).watch_by users(:kevin)
+    cards(:logo).watch_by users(:member)
     cards(:logo).unwatch_by users(:jz)
-    cards(:logo).watch_by users(:david)
+    cards(:logo).watch_by users(:owner)
 
-    assert_equal [users(:kevin), users(:david)].sort, cards(:logo).watchers.sort
+    assert_equal [users(:member), users(:owner)].sort, cards(:logo).watchers.sort
 
     # Only active users
-    users(:david).system!
-    assert_equal [users(:kevin)].sort, cards(:logo).watchers.reload.sort
+    users(:owner).system!
+    assert_equal [users(:member)].sort, cards(:logo).watchers.reload.sort
   end
 end
 ```
@@ -548,19 +548,19 @@ end
 class Notifier::EventNotifierTest < ActiveSupport::TestCase
   test "published event creates notifications for collection watchers" do
     notifications = Notifier.for(events(:logo_published)).notify
-    assert_equal [users(:kevin), users(:jz)], notifications.map(&:user)
+    assert_equal [users(:member), users(:jz)], notifications.map(&:user)
   end
 
   test "assignment events only create a notification for the assignee" do
     collections(:writebook).access_for(users(:jz)).watching!
-    collections(:writebook).access_for(users(:kevin)).watching!
+    collections(:writebook).access_for(users(:member)).watching!
 
     notifications = Notifier.for(events(:logo_assignment_jz)).notify
     assert_equal [users(:jz)], notifications.map(&:user)
   end
 
   test "assignment events do not notify you if you assigned yourself" do
-    collections(:writebook).access_for(users(:david)).watching!
+    collections(:writebook).access_for(users(:owner)).watching!
 
     notifications = Notifier.for(events(:logo_assignment_david)).notify
     assert_empty notifications
@@ -575,10 +575,10 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
   end
 
   test "does not create a notification for access-only users" do
-    collections(:writebook).access_for(users(:kevin)).access_only!
+    collections(:writebook).access_for(users(:member)).access_only!
 
     notifications = Notifier.for(events(:layout_commented)).notify
-    assert_equal [users(:kevin)], notifications.map(&:user)
+    assert_equal [users(:member)], notifications.map(&:user)
   end
 end
 ```
@@ -593,9 +593,9 @@ class Collections::InvolvementsControllerTest < ActionDispatch::IntegrationTest
 
   test "update involvement" do
     collection = collections(:writebook)
-    collection.access_for(users(:kevin)).access_only!
+    collection.access_for(users(:member)).access_only!
 
-    assert_changes -> { collection.access_for(users(:kevin)).involvement },
+    assert_changes -> { collection.access_for(users(:member)).involvement },
                    from: "access_only", to: "watching" do
       put collection_involvement_url(collection, involvement: "watching")
     end
@@ -611,9 +611,9 @@ end
 class Cards::WatchesControllerTest < ActionDispatch::IntegrationTest
   test "create watch" do
     sign_in_as :kevin
-    cards(:logo).unwatch_by users(:kevin)
+    cards(:logo).unwatch_by users(:member)
 
-    assert_changes -> { cards(:logo).watched_by?(users(:kevin)) },
+    assert_changes -> { cards(:logo).watched_by?(users(:member)) },
                    from: false, to: true do
       post card_watch_path(cards(:logo))
     end
@@ -621,9 +621,9 @@ class Cards::WatchesControllerTest < ActionDispatch::IntegrationTest
 
   test "destroy watch" do
     sign_in_as :kevin
-    cards(:logo).watch_by users(:kevin)
+    cards(:logo).watch_by users(:member)
 
-    assert_changes -> { cards(:logo).watched_by?(users(:kevin)) },
+    assert_changes -> { cards(:logo).watched_by?(users(:member)) },
                    from: true, to: false do
       delete card_watch_path(cards(:logo))
     end

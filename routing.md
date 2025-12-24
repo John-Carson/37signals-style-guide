@@ -29,7 +29,7 @@ end
 
 **Why**: Standard REST verbs map cleanly to controller actions. No guessing what HTTP method to use.
 
-## Real Examples from Fizzy Routes
+## Real Examples from the application Routes
 
 ```ruby
 # config/routes.rb

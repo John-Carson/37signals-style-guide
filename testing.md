@@ -6,7 +6,7 @@
 
 ## Minitest Over RSpec
 
-37signals uses Minitest, not RSpec:
+Use Minitest, not RSpec:
 - Simpler, less DSL magic
 - Ships with Rails
 - Faster boot time
@@ -32,7 +32,7 @@ jason:
 ```ruby
 # In tests
 test "admin can delete cards" do
-  user = users(:david)
+  user = users(:owner)
   card = cards(:urgent_bug)
 
   assert user.can_delete?(card)
@@ -86,7 +86,7 @@ old_card:
 class CardTest < ActiveSupport::TestCase
   setup do
     @card = cards(:urgent_bug)
-    @user = users(:david)
+    @user = users(:owner)
   end
 
   test "closing a card creates an event" do
@@ -113,7 +113,7 @@ Test full request/response cycles:
 ```ruby
 class CardsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:david)
+    @user = users(:owner)
     sign_in_as @user
   end
 
@@ -145,7 +145,7 @@ Use Capybara for browser testing:
 ```ruby
 class CardSystemTest < ApplicationSystemTestCase
   setup do
-    sign_in_as users(:david)
+    sign_in_as users(:owner)
   end
 
   test "dragging card between columns" do
@@ -218,13 +218,13 @@ end
 ```ruby
 test "closing card enqueues notification job" do
   assert_enqueued_with(job: NotifyWatchersJob) do
-    cards(:urgent_bug).close(by: users(:david))
+    cards(:urgent_bug).close(by: users(:owner))
   end
 end
 
 test "notification job sends emails" do
   perform_enqueued_jobs do
-    cards(:urgent_bug).close(by: users(:david))
+    cards(:urgent_bug).close(by: users(:owner))
   end
 
   assert_emails 3  # 3 watchers

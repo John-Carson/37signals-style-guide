@@ -1,10 +1,8 @@
 # Active Storage Patterns
 
-> Lessons from 37signals' Fizzy codebase.
-
 ---
 
-## Variant Preprocessing ([#767](https://github.com/basecamp/fizzy/pull/767))
+## Variant Preprocessing (this update)
 
 Use `preprocessed: true` to prevent on-the-fly transformations failing on read replicas:
 
@@ -18,7 +16,7 @@ end
 
 Centralize variant definitions in a module.
 
-## Direct Upload Expiry ([#773](https://github.com/basecamp/fizzy/pull/773))
+## Direct Upload Expiry (this update)
 
 **Problem**: When using Cloudflare (or similar CDN/proxy), large file uploads can fail with signature expiration errors. Cloudflare buffers the entire request before forwarding it to your origin server. For large files on slow connections, this buffering can take longer than Rails' default signed URL expiry (5 minutes), causing the upload to fail even though the user is still actively uploading.
 
@@ -39,7 +37,7 @@ end
 
 **Why 48 hours?** This provides ample time for even the slowest uploads while still expiring unused URLs. The signed URL is single-use anyway, so the security impact is minimal.
 
-## Large File Preview Limits ([#941](https://github.com/basecamp/fizzy/pull/941))
+## Large File Preview Limits (this update)
 
 Skip previews above size threshold:
 
@@ -53,14 +51,14 @@ module ActiveStorageBlobPreviewable
 end
 ```
 
-## Preview vs Variant ([#770](https://github.com/basecamp/fizzy/pull/770))
+## Preview vs Variant (this update)
 
 - **Variable** (images): `blob.variant(options)`
 - **Previewable** (PDFs, videos): `blob.preview(options)`
 
 Don't conflate them - different operations.
 
-## Avatar Optimization ([#1689](https://github.com/basecamp/fizzy/pull/1689))
+## Avatar Optimization (this update)
 
 **Problem**: Streaming avatar images through your Rails app ties up web workers and adds latency. Every avatar request occupies a Puma thread while bytes flow through.
 
@@ -81,7 +79,7 @@ end
 - Only apply `stale?` to the initials fallback, not the redirect—otherwise browsers will show broken images after an avatar change until the cache expires
 - The redirect is fast (just sends a 302), offloading the heavy lifting to your CDN/storage service
 
-## Mirror Configuration ([#557](https://github.com/basecamp/fizzy/pull/557))
+## Mirror Configuration (this update)
 
 **Pattern**: Use Active Storage's mirror service to write to multiple backends simultaneously while reading from a fast local primary.
 
